@@ -1,0 +1,13 @@
+@import '../../bootstrap/dist/css/bootstrap.min.css';
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Yeseva+One&display=swap");
+body {
+  font-family: "Josefin Sans", sans-serif;
+}
+
+.btn-primary {
+  background-color: #263262 !important;
+}
+
+.btn-primary:hover {
+  background-color: #DF2C2E !important;
+}/*# sourceMappingURL=main.css.map */
