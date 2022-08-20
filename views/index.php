@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once('../modules/Connection.php');
 include_once('../modules/LoginAccess.php');
 

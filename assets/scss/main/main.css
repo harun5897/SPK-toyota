@@ -4,10 +4,31 @@ body {
   font-family: "Josefin Sans", sans-serif;
 }
 
+.bg-primary {
+  background-color: #263262 !important;
+}
+
+.bg-table {
+  background-color: #C08F2E !important;
+}
+
 .btn-primary {
   background-color: #263262 !important;
 }
 
 .btn-primary:hover {
   background-color: #DF2C2E !important;
+}
+
+.btn-secondary {
+  background-color: #DF2C2E !important;
+}
+
+.btn-secondary:hover {
+  background-color: #263262 !important;
+}
+
+.navbar .dropdown a {
+  text-decoration: none;
+  color: #263262;
 }/*# sourceMappingURL=main.css.map */
