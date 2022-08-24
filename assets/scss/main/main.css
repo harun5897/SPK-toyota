@@ -8,6 +8,10 @@ body {
   background-color: #263262 !important;
 }
 
+.bg-secondary {
+  background-color: #DF2C2E !important;
+}
+
 .bg-table {
   background-color: #C08F2E !important;
 }

@@ -75,65 +75,102 @@ if(isset($_GET['dataCustomer'])){
     </div>
   </nav>
   <div id="data-customer">
-    <div class="data-customer container-md mt-5">
+    <div class="data-customer container-md mt-4">
       <div class="card rounded-0">
         <div class="card-header bg-primary text-light rounded-0">
-          <div class="py-2">
-            <h5 class="m-0 me-3">Data Customer</h5>
+          <div class="d-flex">
+            <h5 class="m-0">Data Customer</h5>
           </div>
         </div>
         <div class="card-body">
-          <div class="d-flex">
-            <div>
-              <a
-                href="InputDataCustomer.php"
-                class="btn btn-secondary 
-                rounded-0 border-0 me-5" 
-              >
-                Add Data
-              </a>
-            </div>
-            <div class="d-flex">
-              <button class="btn btn-primary border-0 rounded-0 me-2"> Search </button>
-              <input type="text" class="form-control rounded-0 w-100" placeholder="Search By Nopol">
-            </div>
+          <div class="d-flex justify-content-center text-white">
+            <a 
+              href="DataCustomer.php" 
+              class="btn btn-secondary me-1 shadow border border-3 border-light" 
+              style="width: 100px;"
+            >
+              Customer
+            </a>
+            <a 
+              href="" 
+              class="btn btn-secondary me-1 shadow border border-3 border-light" 
+              style="width: 100px;"
+            >
+              Service
+            </a>
+            <a 
+              href="DataKriteria.php" 
+              class="btn btn-secondary me-1 shadow border border-3 border-light" 
+              style="width: 100px;"
+            >
+              Kriteria
+            </a>
+            <a 
+              href="" 
+              class="btn btn-secondary me-1 shadow border border-3 border-light" 
+              style="width: 100px;"
+            >
+              Penilaian
+            </a>
+            <a 
+              href="" 
+              class="btn btn-secondary me-1 shadow border border-3 border-light" 
+              style="width: 100px;"
+            >
+              Hitung
+            </a>
           </div>
           <hr>
           <div class="d-flex justify-content-center">
-            <table 
-              id="myTable" 
-              class="table table-hover table-bordered mt-2"
-              style="max-width: 800px;"
-            >
-              <tr class="bg-table">
-                <th>No</th>
-                <th>Nama</th>
-                <th>Nopol</th>
-                <th>Kendaraan</th>
-                <th>No Telp</th>
-                <th class="text-center">Action</th>
-              </tr>
-              <?php
-                $no = 0;
-                $dataCustomer = mysqli_query($connection, "SELECT * FROM customers");
-                while($arrDataCustomer = mysqli_fetch_array($dataCustomer)) :
-                  $no++;
-              ?>
-              <tr>
-                <td><?php echo $no; ?></td>
-                <td><?=$arrDataCustomer['namaDepan']?></td>
-                <td><?=$arrDataCustomer['nomorPolisi']?></td>
-                <td><?=$arrDataCustomer['merkKendaraan']?></td>
-                <td><?=$arrDataCustomer['kontak']?></td>
-                <td class="text-center"> 
-                  <a href="updateDataCustomer.php?dataCustomer=update&idCustomer=<?=$arrDataCustomer['idCustomer']?>" class="btn btn-sm btn-primary border-0 rounded-0 fw-bold">Detail</a>
-                  <a href="DataCustomer.php?dataCustomer=delete&idCustomer=<?=$arrDataCustomer['idCustomer']?>" class="btn btn-sm btn-secondary border-0 rounded-0 fw-bold">Delete</a>
-                </td>
-              </tr>
-              <?php
-                endwhile;
-              ?>
-            </table>
+            <div class="w-100">
+              <div class="d-flex mb-2">
+                <div>
+                  <a
+                    href="InputDataAlternatif.php"
+                    class="btn btn-primary rounded-0 me-3 shadow border border-3 border-light" 
+                  >
+                    Add Data
+                  </a>
+                </div>
+                <!-- <div class="d-flex">
+                  <button class="btn btn-secondary border-0 rounded-0 me-2"> Search </button>
+                  <input type="text" class="form-control rounded-0 w-100" placeholder="Search By Nopol">
+                </div> -->
+              </div>
+              <table 
+                id="myTable" 
+                class="table table-hover table-bordered px-5" 
+              >
+                <tr class="bg-table">
+                  <th style="width: 20px;">No</th>
+                  <th>Nama</th>
+                  <th>Nomor Polisi</th>
+                  <th>Merek</th>
+                  <th>No Telp</th>
+                  <th class="text-center">Action</th>
+                </tr>
+                <?php
+                  $no = 0;
+                  $dataCustomer = mysqli_query($connection, "SELECT * FROM customers");
+                  while($arrDataCustomer = mysqli_fetch_array($dataCustomer)) :
+                    $no++;
+                ?>
+                <tr>
+                  <td class="text-center fw-bold"><?php echo $no; ?></td>
+                  <td><?=$arrDataCustomer['namaDepan']?></td>
+                  <td><?=$arrDataCustomer['nomorPolisi']?></td>
+                  <td><?=$arrDataCustomer['merkKendaraan']?></td>
+                  <td><?=$arrDataCustomer['kontak']?></td>
+                  <td class="text-center"> 
+                    <a href="UpdateDataCustomer.php?dataCustomer=update&idCustomer=<?=$arrDataCustomer['idCustomer']?>" class="btn btn-sm btn-primary border-0 rounded-0">Detail</a>
+                    <a href="dataCustomer.php?dataCustomer=delete&idCustomer=<?=$arrDataCustomer['idCustomer']?>" class="btn btn-sm btn-secondary border-0 rounded-0">Delete</a>
+                  </td>
+                </tr>
+                <?php
+                  endwhile;
+                ?>
+              </table>
+            </div>
           </div>
         </div>
       </div>

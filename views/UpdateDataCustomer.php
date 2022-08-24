@@ -132,12 +132,17 @@ $arrDataCustomerById = mysqli_fetch_array($dataCustomerById);
                     <label for="">Merk Kendaraan</label>
                   </div>
                   <div class="col-7 px-0">
-                    <input 
-                      type="text" 
-                      class="form-control" 
-                      name="merkKendaraan"
-                      value="<?=$arrDataCustomerById['merkKendaraan']?>"
-                    >
+                    <select name="merkKendaraan" id="" class="form-select">
+                      <option value="<?=$arrDataCustomerById['merkKendaraan']?>"><?=$arrDataCustomerById['merkKendaraan']?></option>
+                      <option value="Toyota">Toyota</option>
+                      <option value="Honda">Honda</option>
+                      <option value="Suzuki">Suzuki</option>
+                      <option value="Mitsubishi">Mitsubishi</option>
+                      <option value="Hino">Hino</option>
+                      <option value="Daihatsu">Daihatsu</option>
+                      <option value="Mazda">Mazda</option>
+                    </select>
+                    </select>
                   </div>
                 </div>
                 <div class="d-flex justify-content-start row mt-3">

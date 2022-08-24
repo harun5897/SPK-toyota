@@ -1,13 +1,6 @@
 <?php
+  // ALTERNATIF
   function saveDataCustomer($connection, $namaDepan, $namaBelakang, $nomorPolisi, $nomorRangka, $merkKendaraan, $tipeKendaraan, $kontak, $alamat) {
-    // echo $namaDepan; echo '<br>';
-    // echo $namaBelakang; echo '<br>';
-    // echo $nomorPolisi; echo '<br>';
-    // echo $nomorRangka; echo '<br>';
-    // echo $merkKendaraan; echo '<br>';
-    // echo $tipeKendaraan; echo '<br>';
-    // echo $kontak; echo '<br>';
-    // echo $alamat; echo '<br>';
 
     if(!$namaDepan || !$namaBelakang || !$nomorPolisi || !$nomorRangka || !$merkKendaraan || !$tipeKendaraan || !$kontak || !$alamat) {
       header('location: InputDataCustomer.php?alertFieldRequired=true');
@@ -30,5 +23,37 @@
   function deleteCustomer($connection, $idCustomer) {
     mysqli_query($connection, "DELETE FROM `customers` WHERE `idCustomer` = '$idCustomer'");
     header('location: DataCustomer.php?alertSuccessDeleteData=true');
+  }
+
+
+  function saveKriteria($connection, $namaKriteria, $bobotKriteria, $pertanyaanKriteria, $costBenefit) {
+    if($bobotKriteria > 100 ) {
+      header('location: DataKriteria.php?alertValueMaximum=true');
+    } else {
+      if(!$namaKriteria || !$bobotKriteria || !$pertanyaanKriteria || !$costBenefit) {
+        header('location: DataKriteria.php?alertFieldRequired=true');
+      } else {
+        mysqli_query($connection, "INSERT INTO `kriteria` (`namaKriteria`, `bobotKriteria`, `pertanyaanKriteria`, `costBenefit`) VALUES ('$namaKriteria', '$bobotKriteria', '$pertanyaanKriteria', '$costBenefit')");
+        header('location: DataKriteria.php?alertSuccessSaveData=true');
+      }
+    }
+  }
+
+  function updateKriteria($connection, $namaKriteria, $bobotKriteria, $pertanyaanKriteria, $costBenefit, $idKriteria){
+    if($bobotKriteria > 100 ) {
+      header('location: DataKriteria.php?alertValueMaximum=true');
+    } else {
+      if(!$namaKriteria || !$bobotKriteria || !$pertanyaanKriteria || !$costBenefit) {
+        header('location: DataKriteria.php?alertFieldRequired=true');
+      } else {
+        mysqli_query($connection, "UPDATE `kriteria` SET `namaKriteria` = '$namaKriteria', `bobotKriteria` = '$bobotKriteria', `pertanyaanKriteria` = '$pertanyaanKriteria', `costBenefit` = '$costBenefit' WHERE `kriteria`.`idKriteria` = $idKriteria");
+        header('location: DataKriteria.php?alertSuccessSaveData=true');
+      }
+    }
+  }
+
+  function deleteKriteria($connection, $idKriteria) {
+    mysqli_query($connection, "DELETE FROM `kriteria` WHERE `idKriteria` = '$idKriteria'");
+    header('location: DataKriteria.php?alertSuccessDeleteData=true');
   }
 ?>

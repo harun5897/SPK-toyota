@@ -12,7 +12,7 @@
         $_SESSION['role'] = $arrDataUser['role'];
         $_SESSION['loginStatus'] = true;
 
-        header('location: DataCustomer.php?alertSuccessLogin=true');
+        header('location: DataAlternatif.php?alertSuccessLogin=true');
       }
       else {
         header('location: index.php?alertFailureLogin=true');
