@@ -126,7 +126,7 @@ if(isset($_GET['dataCustomer'])){
               <div class="d-flex mb-2">
                 <div>
                   <a
-                    href="InputDataAlternatif.php"
+                    href="InputDataCustomer.php"
                     class="btn btn-primary rounded-0 me-3 shadow border border-3 border-light" 
                   >
                     Add Data

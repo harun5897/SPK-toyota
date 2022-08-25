@@ -2,7 +2,7 @@
   // ALTERNATIF
   function saveDataCustomer($connection, $namaDepan, $namaBelakang, $nomorPolisi, $nomorRangka, $merkKendaraan, $tipeKendaraan, $kontak, $alamat) {
 
-    if(!$namaDepan || !$namaBelakang || !$nomorPolisi || !$nomorRangka || !$merkKendaraan || !$tipeKendaraan || !$kontak || !$alamat) {
+    if(!$namaDepan || !$namaBelakang || !$nomorPolisi || !$nomorRangka || !$merkKendaraan || !$tipeKendaraan || !$kontak || trim($alamat) == '') {
       header('location: InputDataCustomer.php?alertFieldRequired=true');
     }
     else {
@@ -11,7 +11,7 @@
     }
   }
   function updateDataCustomer($connection, $namaDepan, $namaBelakang, $nomorPolisi, $nomorRangka, $merkKendaraan, $tipeKendaraan, $kontak, $alamat, $idCustomer) {
-    if(!$namaDepan || !$namaBelakang || !$nomorPolisi || !$nomorRangka || !$merkKendaraan || !$tipeKendaraan || !$kontak || !$alamat) {
+    if(!$namaDepan || !$namaBelakang || !$nomorPolisi || !$nomorRangka || !$merkKendaraan || !$tipeKendaraan || !$kontak || trim($alamat) == '') {
       header('location: UpdateDataCustomer.php?alertFieldRequired=true&idCustomer='.$idCustomer);
     }
     else {   
@@ -30,7 +30,7 @@
     if($bobotKriteria > 100 ) {
       header('location: DataKriteria.php?alertValueMaximum=true');
     } else {
-      if(!$namaKriteria || !$bobotKriteria || !$pertanyaanKriteria || !$costBenefit) {
+      if(!$namaKriteria || !$bobotKriteria || trim($pertanyaanKriteria) == '' || !$costBenefit) {
         header('location: DataKriteria.php?alertFieldRequired=true');
       } else {
         mysqli_query($connection, "INSERT INTO `kriteria` (`namaKriteria`, `bobotKriteria`, `pertanyaanKriteria`, `costBenefit`) VALUES ('$namaKriteria', '$bobotKriteria', '$pertanyaanKriteria', '$costBenefit')");
@@ -43,7 +43,7 @@
     if($bobotKriteria > 100 ) {
       header('location: DataKriteria.php?alertValueMaximum=true');
     } else {
-      if(!$namaKriteria || !$bobotKriteria || !$pertanyaanKriteria || !$costBenefit) {
+      if(!$namaKriteria || !$bobotKriteria || trim($pertanyaanKriteria) == '' || !$costBenefit) {
         header('location: DataKriteria.php?alertFieldRequired=true');
       } else {
         mysqli_query($connection, "UPDATE `kriteria` SET `namaKriteria` = '$namaKriteria', `bobotKriteria` = '$bobotKriteria', `pertanyaanKriteria` = '$pertanyaanKriteria', `costBenefit` = '$costBenefit' WHERE `kriteria`.`idKriteria` = $idKriteria");
@@ -58,16 +58,30 @@
   }
 
   function saveService($connection, $idCustomer, $permasalahanKendaraan) {
-    print_r($permasalahanKendaraan);
-    // $tes = $permasalahanKendaraan;
-    // if($tes == '') {
-    //   header('location: DataService.php?alertFieldRequired=true');
-    // }
-    // else {
-    //   date_default_timezone_set('Asia/Jakarta');
-    //   $tanggalService = date('d-m-Y');
-    //   mysqli_query($connection, "INSERT INTO `service` (`idCustomer`, `permasalahanKendaraan`, `tanggalService`) VALUES ('$idCustomer', '$permasalahanKendaraan', '$tanggalService')");
-    //   header('location: DataService.php?alertSuccessSaveData=true');
-    // }
+    if(!$idCustomer || trim($permasalahanKendaraan) == '') {
+      header('location: DataService.php?alertFieldRequired=true');
+    }
+    else {
+      date_default_timezone_set('Asia/Jakarta');
+      $tanggalService = date('d-m-Y');
+      mysqli_query($connection, "INSERT INTO `service` (`idCustomer`, `permasalahanKendaraan`, `tanggalService`) VALUES ('$idCustomer', '$permasalahanKendaraan', '$tanggalService')");
+      header('location: DataService.php?alertSuccessSaveData=true');
+    }
+  }
+
+  function updateService($connection, $tanggalService, $permasalahanKendaraan, $idService) {
+    if(!$tanggalService || trim($permasalahanKendaraan) == '') {
+      header('location: DataService.php?alertFieldRequired=true');
+    }
+    else {
+      $tanggalService = date('d-m-Y', strtotime($tanggalService));
+      mysqli_query($connection, "UPDATE `service` SET `permasalahanKendaraan` = '$permasalahanKendaraan', `tanggalService` = '$tanggalService' WHERE `service`.`idService` = $idService");
+      header('location: DataService.php?alertSuccessSaveData=true');
+    }
+  }
+
+  function deleteService ($connection, $idService) {
+    mysqli_query($connection, "DELETE FROM `service` WHERE `idService` = '$idService'");
+    header('location: DataService.php?alertSuccessDeleteData=true');
   }
 ?>

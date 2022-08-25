@@ -34,13 +34,6 @@ if(isset($_GET['dataKriteria'])){
     <?php
   }
 }
-if(isset($_GET['dataKriteria'])){
-  if($_GET['dataKriteria'] == 'hapus') {
-    $idKriteria = $_GET['idKriteria'];
-    deleteKriteria($koneksi, $idKriteria);
-  }
-}
-
 if(isset($_POST['simpanKriteria'])) {
   saveKriteria($connection, $_POST['namaKriteria'], $_POST['bobotKriteria'], $_POST['pertanyaanKriteria'], $_POST['costBenefit']);
 }
@@ -227,7 +220,7 @@ if(isset($_GET['dataKriteria'])){
             <input 
               type="text" 
               class="form-control mt-3" 
-              placeholder="Masukan Nilai Kriteria"
+              placeholder="Masukan Bobot Kriteria"
               name="bobotKriteria"
             >
             <label for="" class="mt-3 text-black-50">Masukan Bentuk Pertanyaan </label>
@@ -283,7 +276,7 @@ if(isset($_GET['dataKriteria'])){
             <input 
               type="text" 
               class="form-control mt-3" 
-              placeholder="Masukan Nilai Kriteria"
+              placeholder="Masukan Bobot Kriteria"
               name="bobotKriteria"
               value="<?=$arrDataKriteriaEdit['bobotKriteria']?>"
             >

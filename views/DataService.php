@@ -8,14 +8,38 @@ if(isset($_GET['alertSuccessSaveData'])) {
     <script>var alertSuccessSaveData = true;</script>
   <?php
 }
+if(isset($_GET['alertSuccessDeleteData'])) {
+  ?>
+    <script>var alertSuccessDeleteData = true;</script>
+  <?php
+}
 if(isset($_GET['alertFieldRequired'])) {
   ?>
     <script>var alertFieldRequired = true;</script>
   <?php
 }
 
+if(isset($_GET['dataService'])){
+  if($_GET['dataService'] == 'update') {
+    $idService = $_GET['idService'];
+    $dataServiceEdit = mysqli_query($connection, "SELECT * FROM `service` WHERE `idService` = '$idService'");
+    $arrDataServiceEdit = mysqli_fetch_array($dataServiceEdit);
+    ?>
+      <script>var updateDataService = true;</script>
+    <?php
+  }
+}
 if(isset($_POST['simpanService'])) {
   saveService($connection, $_POST['idCustomer'], $_POST['permasalahanKendaraan']);
+}
+if(isset($_POST['updateService'])) {
+  updateService($connection, $_POST['tanggalService'], $_POST['permasalahanKendaraan'], $idService);
+}
+if(isset($_GET['dataService'])){
+  if($_GET['dataService'] == 'delete') {
+    $idService = $_GET['idService'];
+    deleteService($connection, $idService);
+  }
 }
 ?>
 
@@ -138,25 +162,28 @@ if(isset($_POST['simpanService'])) {
                   <th>Nomor Polisi</th>
                   <th class="text-center">Action</th>
                 </tr>
-                <!-- <?php
+                <?php
                   $no = 0;
-                  $dataKriteria = mysqli_query($connection, "SELECT * FROM kriteria");
-                  while($arrDataKriteria = mysqli_fetch_array($dataKriteria)) :
+                  $dataService = mysqli_query($connection, "SELECT * FROM service");
+                  while($arrDataService = mysqli_fetch_array($dataService)) :
+                    $idCustomer = $arrDataService['idCustomer'];
+                    $dataCustomer = mysqli_query($connection, "SELECT * FROM `customers` WHERE `idCustomer` = '$idCustomer' ");
+                    $arrDataCustomer = mysqli_fetch_array($dataCustomer);
                     $no++;
                 ?>
                 <tr>
                   <td class="text-center fw-bold"><?php echo $no; ?></td>
-                  <td><?=$arrDataKriteria['namaKriteria']?></td>
-                  <td><?=$arrDataKriteria['bobotKriteria']?></td>
-                  <td><?=$arrDataKriteria['costBenefit']?></td>
+                  <td><?=$arrDataService['tanggalService']?></td>
+                  <td><?=$arrDataCustomer['namaDepan']?></td>
+                  <td><?=$arrDataCustomer['nomorPolisi']?></td>
                   <td class="text-center"> 
-                    <a href="DataKriteria.php?dataKriteria=update&idKriteria=<?=$arrDataKriteria['idKriteria']?>" class="btn btn-sm btn-primary border-0 rounded-0">Detail</a>
-                    <a href="DataKriteria.php?dataKriteria=delete&idKriteria=<?=$arrDataKriteria['idKriteria']?>" class="btn btn-sm btn-secondary border-0 rounded-0">Delete</a>
+                    <a href="DataService.php?dataService=update&idService=<?=$arrDataService['idService']?>" class="btn btn-sm btn-primary border-0 rounded-0">Detail</a>
+                    <a href="DataService.php?dataService=delete&idService=<?=$arrDataService['idService']?>" class="btn btn-sm btn-secondary border-0 rounded-0">Delete</a>
                   </td>
                 </tr>
                 <?php
                   endwhile;
-                ?> -->
+                ?>
               </table>
             </div>
           </div>
@@ -217,7 +244,7 @@ if(isset($_POST['simpanService'])) {
     </div>
   </div>
 
-  <!-- Modal Update Data Kriteria-->
+  <!-- Modal Update Data Service-->
   <div class="modal fade" 
     tabindex="-1"
     id="exampleModal1"
@@ -227,45 +254,39 @@ if(isset($_POST['simpanService'])) {
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header bg-primary text-white">
-          <h5 class="modal-title">Update Data Kriteria</h5>
+          <h5 class="modal-title">Update Data Service</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form action="" method="POST">
           <div class="modal-body">
+            <?php
+              $idCustomer = $arrDataServiceEdit['idCustomer'];
+              $tanggalService = $arrDataServiceEdit['tanggalService'];
+              $newDate = date("Y-m-d", strtotime($tanggalService));
+              $dataCustomer = mysqli_query($connection, "SELECT * FROM `customers` WHERE `idCustomer` = '$idCustomer'");
+              $arrDataCustomer = mysqli_fetch_array($dataCustomer);
+            ?>
+            <label for=""><?=$arrDataCustomer['namaDepan']?> <?=$arrDataCustomer['namaBelakang']?></label>
+            <hr>
+            <label for="" class="text-black-50">Tanggal Service </label>
             <input 
-              type="text" 
-              class="form-control mt-3" 
-              placeholder="Masukan Nama Kriteria"
-              name="namaKriteria"
-              value="<?=$arrDataKriteriaEdit['namaKriteria']?>"
+              type="date" 
+              class="form-control" 
+              name="tanggalService"
+              value="<?=$newDate?>"
             >
-            <input 
-              type="text" 
-              class="form-control mt-3" 
-              placeholder="Masukan Nilai Kriteria"
-              name="bobotKriteria"
-              value="<?=$arrDataKriteriaEdit['bobotKriteria']?>"
-            >
-            <label for="" class="mt-3 text-black-50">Masukan Bentuk Pertanyaan </label>
+            <label for="" class="text-black-50 mt-3">Masukan Permasalahan Kendaraan </label>
             <textarea
               type="text" 
               class="form-control mt-0" 
-              name="pertanyaanKriteria"
-            ><?=$arrDataKriteriaEdit['pertanyaanKriteria']?></textarea>
-            <select 
-              class="form-select mt-3" 
-              name="costBenefit"
-            >
-              <option value="<?=$arrDataKriteriaEdit['costBenefit']?>"><?=$arrDataKriteriaEdit['costBenefit']?></option>
-              <option value="cost">Cost</option>
-              <option value="benefit">Benefit</option>
-            </select>
+              name="permasalahanKendaraan"
+            ><?=$arrDataServiceEdit['permasalahanKendaraan']?></textarea>
           </div>
           <div class="modal-footer mt-3">
             <button 
               type="submit" 
               class="btn btn-secondary border-0 rounded-0"
-              name="updateKriteria"
+              name="updateService"
             >
               Simpan
             </button>
@@ -290,6 +311,17 @@ if(isset($_POST['simpanService'])) {
     }
   </script>
   <script>
+    if(alertSuccessDeleteData) {
+      swal({
+        title: "Success",
+        text: "Delete Data Service Success",
+        buttons: false,
+        icon: "success",
+        timer: 2000,
+      });
+    }
+  </script>
+  <script>
     if(alertFieldRequired) {
       swal({
         title: "Input Data Failed",
@@ -298,6 +330,14 @@ if(isset($_POST['simpanService'])) {
         icon: 'warning',
       });
     }
+  </script>
+  <script>
+  if (updateDataService) {
+    const myModal = new bootstrap.Modal(document.getElementById("exampleModal1"), {});
+    document.onreadystatechange = function () {
+      myModal.show()
+    }
+  }
   </script>
 </body>
 </html>
