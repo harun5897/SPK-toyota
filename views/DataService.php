@@ -8,53 +8,15 @@ if(isset($_GET['alertSuccessSaveData'])) {
     <script>var alertSuccessSaveData = true;</script>
   <?php
 }
-if(isset($_GET['alertSuccessDeleteData'])) {
-  ?>
-    <script>var alertSuccessDeleteData = true;</script>
-  <?php
-}
 if(isset($_GET['alertFieldRequired'])) {
   ?>
     <script>var alertFieldRequired = true;</script>
   <?php
 }
-if(isset($_GET['alertValueMaximum'])) {
-  ?>
-    <script>var alertValueMaximum = true;</script>
-  <?php
-}
 
-if(isset($_GET['dataKriteria'])){
-  if($_GET['dataKriteria'] == 'update') {
-    $idKriteria = $_GET['idKriteria'];
-    $dataKriteriaEdit = mysqli_query($connection, "SELECT * FROM `kriteria` WHERE `idKriteria` = '$idKriteria'");
-    $arrDataKriteriaEdit = mysqli_fetch_array($dataKriteriaEdit);
-    ?>
-      <script>var updateDataKriteria = true;</script>
-    <?php
-  }
+if(isset($_POST['simpanService'])) {
+  saveService($connection, $_POST['idCustomer'], $_POST['permasalahanKendaraan']);
 }
-if(isset($_GET['dataKriteria'])){
-  if($_GET['dataKriteria'] == 'hapus') {
-    $idKriteria = $_GET['idKriteria'];
-    deleteKriteria($koneksi, $idKriteria);
-  }
-}
-
-if(isset($_POST['simpanKriteria'])) {
-  saveKriteria($connection, $_POST['namaKriteria'], $_POST['bobotKriteria'], $_POST['pertanyaanKriteria'], $_POST['costBenefit']);
-}
-if(isset($_POST['updateKriteria'])) {
-  $idKriteria = $_GET['idKriteria'];
-  updateKriteria($connection, $_POST['namaKriteria'], $_POST['bobotKriteria'], $_POST['pertanyaanKriteria'], $_POST['costBenefit'], $idKriteria);
-}
-if(isset($_GET['dataKriteria'])){
-  if($_GET['dataKriteria'] == 'delete') {
-    $idKriteria = $_GET['idKriteria'];
-    deleteKriteria($connection, $idKriteria);
-  }
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -105,7 +67,7 @@ if(isset($_GET['dataKriteria'])){
       <div class="card rounded-0">
         <div class="card-header bg-primary text-light rounded-0">
           <div class="d-flex">
-            <h5 class="m-0">Data Kriteria</h5>
+            <h5 class="m-0">Data Service</h5>
           </div>
         </div>
         <div class="card-body">
@@ -171,12 +133,12 @@ if(isset($_GET['dataKriteria'])){
               >
                 <tr class="bg-table">
                   <th style="width: 20px;">No</th>
-                  <th>Kriteria</th>
-                  <th>Bobot</th>
-                  <th>Cost / Benefit</th>
+                  <th>Tanggal Service</th>
+                  <th>Nama Pemilik</th>
+                  <th>Nomor Polisi</th>
                   <th class="text-center">Action</th>
                 </tr>
-                <?php
+                <!-- <?php
                   $no = 0;
                   $dataKriteria = mysqli_query($connection, "SELECT * FROM kriteria");
                   while($arrDataKriteria = mysqli_fetch_array($dataKriteria)) :
@@ -194,7 +156,7 @@ if(isset($_GET['dataKriteria'])){
                 </tr>
                 <?php
                   endwhile;
-                ?>
+                ?> -->
               </table>
             </div>
           </div>
@@ -203,7 +165,7 @@ if(isset($_GET['dataKriteria'])){
     </div>
   </div>
 
-  <!-- Modal Tambah Data Kriteria-->
+  <!-- Modal Tambah Data Service-->
   <div class="modal fade" 
     tabindex="-1"
     id="exampleModal"
@@ -213,42 +175,39 @@ if(isset($_GET['dataKriteria'])){
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header bg-primary text-white">
-          <h5 class="modal-title">Masukan Data Kriteria</h5>
+          <h5 class="modal-title">Masukan Data Service</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form action="" method="POST">
           <div class="modal-body">
-            <input 
-              type="text" 
-              class="form-control mt-3" 
-              placeholder="Masukan Nama Kriteria"
-              name="namaKriteria"
+            <select 
+              class="form-select mt-3" 
+              name="idCustomer"
             >
-            <input 
-              type="text" 
-              class="form-control mt-3" 
-              placeholder="Masukan Nilai Kriteria"
-              name="bobotKriteria"
-            >
-            <label for="" class="mt-3 text-black-50">Masukan Bentuk Pertanyaan </label>
+              <option value="" selected> Pilih Pemilik Kendaraan</option>
+              <?php 
+                $dataCustomer = mysqli_query($connection, "SELECT * FROM customers");
+                while($arrDataCustomer = mysqli_fetch_array($dataCustomer)) :
+              ?>
+                <option value="<?=$arrDataCustomer['idCustomer']?>">
+                  <?=$arrDataCustomer['namaDepan']?> <?=$arrDataCustomer['namaBelakang']?>
+                </option>
+              <?php
+                endwhile;
+              ?>
+            </select>
+            <label for="" class="mt-3 text-black-50">Masukan Permasalahan Kendaraan </label>
             <textarea
               type="text" 
               class="form-control mt-0" 
-              name="pertanyaanKriteria"
+              name="permasalahanKendaraan"
             > </textarea>
-            <select 
-              class="form-select mt-3" 
-              name="costBenefit"
-            >
-              <option value="cost">Cost</option>
-              <option value="benefit">Benefit</option>
-            </select>
           </div>
           <div class="modal-footer mt-3">
             <button 
               type="submit" 
               class="btn btn-primary border-0 rounded-0"
-              name="simpanKriteria"
+              name="simpanService"
             >
               Simpan
             </button>
@@ -323,7 +282,7 @@ if(isset($_GET['dataKriteria'])){
     if(alertSuccessSaveData) {
       swal({
         title: "Success",
-        text: "Input Data Kriteria Success",
+        text: "Input Data Service Success",
         buttons: false,
         icon: "success",
         timer: 2000,
@@ -339,35 +298,6 @@ if(isset($_GET['dataKriteria'])){
         icon: 'warning',
       });
     }
-  </script>
-  <script>
-    if(alertValueMaximum) {
-      swal({
-        title: "Input Data Failed",
-        text: "Value Exceeds Maximum",
-        buttons: 'OK',
-        icon: 'warning',
-      });
-    }
-  </script>
-  <script>
-    if(alertSuccessDeleteData) {
-      swal({
-        title: "Success",
-        text: "Delete Data Kriteria Success",
-        buttons: false,
-        icon: "success",
-        timer: 2000,
-      });
-    }
-  </script>
-  <script>
-  if (updateDataKriteria) {
-    const myModal = new bootstrap.Modal(document.getElementById("exampleModal1"), {});
-    document.onreadystatechange = function () {
-      myModal.show()
-    }
-  }
   </script>
 </body>
 </html>

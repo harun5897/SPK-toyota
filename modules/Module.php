@@ -56,4 +56,18 @@
     mysqli_query($connection, "DELETE FROM `kriteria` WHERE `idKriteria` = '$idKriteria'");
     header('location: DataKriteria.php?alertSuccessDeleteData=true');
   }
+
+  function saveService($connection, $idCustomer, $permasalahanKendaraan) {
+    print_r($permasalahanKendaraan);
+    // $tes = $permasalahanKendaraan;
+    // if($tes == '') {
+    //   header('location: DataService.php?alertFieldRequired=true');
+    // }
+    // else {
+    //   date_default_timezone_set('Asia/Jakarta');
+    //   $tanggalService = date('d-m-Y');
+    //   mysqli_query($connection, "INSERT INTO `service` (`idCustomer`, `permasalahanKendaraan`, `tanggalService`) VALUES ('$idCustomer', '$permasalahanKendaraan', '$tanggalService')");
+    //   header('location: DataService.php?alertSuccessSaveData=true');
+    // }
+  }
 ?>
