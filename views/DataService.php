@@ -192,7 +192,17 @@ if(isset($_GET['dataService'])){
                     <a href="DataService.php?dataService=delete&idService=<?=$arrDataService['idService']?>" class="btn btn-sm btn-secondary border-0 rounded-0">Delete</a>
                     <a 
                       href="Feedback.php?dataFeedback=true&idCustomer=<?=$arrDataCustomer['idCustomer']?>&idService=<?=$arrDataService['idService']?>"
-                      class="btn btn-sm btn-warning border-0 shadow text-white"
+                      <?php
+                        if(isset($arrDataPenilaian['idService'])){
+                      ?>
+                      class="btn btn-sm btn-warning border-0 shadow disabled"
+                      <?php
+                        } else {
+                      ?>
+                      class="btn btn-sm btn-warning border-0 shadow"
+                      <?php
+                        }
+                      ?>
                     >
                       <img src="../assets/icon/arrow-right-circle.svg" alt="" srcset="">
                     </a>
