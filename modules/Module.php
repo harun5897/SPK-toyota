@@ -99,4 +99,98 @@
     endwhile;
     header('location: ThankYou.php');
   }
+
+
+  // RUMUS MABAC
+  function getNormalisasi($connection, $nilai, $idKriteria) {
+    $dataKriteria = mysqli_query($connection, "SELECT * FROM `kriteria` WHERE `idKriteria` = '$idKriteria'");
+    $arrDataKriteria = mysqli_fetch_array($dataKriteria);
+
+    $arrMinMax = [];
+    $dataPenilaian = mysqli_query($connection, "SELECT * FROM `penilaian` WHERE `idKriteria` = '$idKriteria'");
+    while($arrDataPenilaian = mysqli_fetch_array($dataPenilaian)):
+      array_push($arrMinMax, $arrDataPenilaian['nilai']);
+    endwhile;
+    $normalisasi = 0;
+    if($arrDataKriteria['costBenefit'] == 'benefit') {
+      $max = max($arrMinMax);
+      $min = min($arrMinMax);
+      $first = $nilai - $min;
+      $second = $max - $min;
+      if($first == 0) {
+        $normalisasi = $first;
+      }
+      else {
+        $normalisasi = $first / $second;
+      }
+    } else {
+      $max = max($arrMinMax);
+      $min = min($arrMinMax);
+      $first = $nilai - $max;
+      $second = $min - $max;
+      if($first == 0) {
+        $normalisasi = $first;
+      }
+      else {
+        $normalisasi = $first / $second;
+      }
+    }
+    return $normalisasi;
+  }
+
+  function getMatriksTertimbang($connection, $idKriteria, $normalisasi) {
+    $dataKriteria = mysqli_query($connection, "SELECT * FROM `kriteria` WHERE `idKriteria` = '$idKriteria'");
+    $arrDataKriteria = mysqli_fetch_array($dataKriteria);
+
+    $arrBobot = $arrDataKriteria['bobotKriteria'];
+    $bobot = $arrBobot / 100;
+    $matriksTertimbang = ($bobot * $normalisasi) + $bobot;
+    
+    return $matriksTertimbang;
+  }
+
+  function getAreaPerbatasan($connection, $areaPerbatasan, $no) {
+    $_SESSION['areaPerbatasan'.$no] = $areaPerbatasan;
+  }
+
+  function getReverseAreaPerbatasan ($connection) {
+    $indexCreate = 0;
+      $dataKriteria = mysqli_query($connection, "SELECT * FROM kriteria");
+      while($arrDataKriteria = mysqli_fetch_array($dataKriteria)):
+        $_SESSION['x'.$indexCreate] = [];
+        $indexCreate++;
+      endwhile;
+
+    $name = 0;
+    $dataCustomer =  mysqli_query($connection, "SELECT * FROM customers");
+    while($arrDataCustomer = mysqli_fetch_array($dataCustomer)):
+      $name++;
+      $index = 0;
+      $idCustomer = $arrDataCustomer['idCustomer'];
+      $dataPenilaian = mysqli_query($connection, "SELECT * FROM `penilaian` WHERE `idCustomer` = '$idCustomer' ");
+      $arrDataPenilaian = mysqli_fetch_array($dataPenilaian);
+      if(isset($arrDataPenilaian['idCustomer'])){
+        $dataKriteria = mysqli_query($connection, "SELECT * FROM kriteria");
+        while($arrDataKriteria = mysqli_fetch_array($dataKriteria)):
+          array_push($_SESSION['x'.$index], $_SESSION['areaPerbatasan'.$name][$index]);
+          $index++;
+        endwhile;
+      }
+    endwhile;
+  }
+
+  function perhitunganElemen($matriksTertimbang, $no){
+    $temp = $_SESSION['x'.$no];
+    $batasan = 0;
+    
+    foreach($temp as $value) {
+      if($batasan == 0) {
+        $batasan = $value;
+      }
+    }
+
+    
+    // return $batasan;
+
+  }
 ?>
