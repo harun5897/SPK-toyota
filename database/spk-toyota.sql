@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 25, 2022 at 02:14 PM
+-- Generation Time: Aug 27, 2022 at 01:07 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.33
 
@@ -44,8 +44,10 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`idCustomer`, `namaDepan`, `namaBelakang`, `nomorPolisi`, `nomorRangka`, `merkKendaraan`, `tipeKendaraan`, `kontak`, `alamat`) VALUES
-(2, 'Harun', 'Abdullah', 'df8787gf', '123456789', 'Mitsubishi', 'XPANDER', '08125659743', 'Tanjung Pinang'),
-(3, 'Aprilia', 'Figo', 'bp4567bg', '123456789', 'Toyota', 'Yaris 2017', '98765432', 'Batam Kota');
+(6, 'Joko', 'Susilo', 'BP 3220 DT', 'RA98897867KA', 'Honda', 'XPANDER 2020', '082160271959', 'Batam Centre'),
+(7, 'Burhan', 'Ardan', 'BP 7340 DT', 'RA98764567KA', 'Toyota', 'YARIS', '081354709870', 'Jl. Botania 2'),
+(8, 'Ruslan ', 'Anwar', 'BP 9340 DT', 'RA76456798KA', 'Honda', 'JAZZ 2018', '083156789870', 'Jl. Nagoya 13'),
+(9, 'Bayu ', 'Anugerah', 'BP 3113 CK', 'RA67873456KA', 'Honda', 'Brio 2018', '081688976890', 'Batam Centre');
 
 -- --------------------------------------------------------
 
@@ -66,7 +68,38 @@ CREATE TABLE `kriteria` (
 --
 
 INSERT INTO `kriteria` (`idKriteria`, `namaKriteria`, `bobotKriteria`, `pertanyaanKriteria`, `costBenefit`) VALUES
-(2, 'Kriteria 1', '80', 'apakah ada ini ?', 'benefit');
+(11, 'Kriteria 1', '30', 'Apakah Durasi Service ideal ? ', 'benefit'),
+(12, 'Kriteria 2', '20', ' Apakah Tempat Service Nyaman Bagi Customer ?', 'benefit'),
+(13, 'Kriteria 3', '35', 'Apakah Pelayanan di Agung Toyota Ramah ? ', 'benefit'),
+(14, 'Kriteria 4', '15', 'Apakah Hasil Service Sesuai dengan yang diharapkan ? ', 'cost');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `penilaian`
+--
+
+CREATE TABLE `penilaian` (
+  `idPenilaian` int(9) NOT NULL,
+  `idCustomer` int(9) NOT NULL,
+  `idService` int(9) NOT NULL,
+  `idKriteria` int(9) NOT NULL,
+  `nilai` int(9) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `penilaian`
+--
+
+INSERT INTO `penilaian` (`idPenilaian`, `idCustomer`, `idService`, `idKriteria`, `nilai`) VALUES
+(17, 6, 9, 11, 90),
+(18, 6, 9, 12, 80),
+(19, 6, 9, 13, 70),
+(20, 6, 9, 14, 70),
+(21, 7, 10, 11, 100),
+(22, 7, 10, 12, 80),
+(23, 7, 10, 13, 70),
+(24, 7, 10, 14, 100);
 
 -- --------------------------------------------------------
 
@@ -80,6 +113,16 @@ CREATE TABLE `service` (
   `permasalahanKendaraan` varchar(255) NOT NULL,
   `tanggalService` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `service`
+--
+
+INSERT INTO `service` (`idService`, `idCustomer`, `permasalahanKendaraan`, `tanggalService`) VALUES
+(9, 6, '1. Ganti Oli\r\n2. Cek Air Radiator', '27-08-2022'),
+(10, 7, ' 1. Service Pintu Belakang', '27-08-2022'),
+(11, 8, ' 1. Ganti Ban Belakang', '27-08-2022'),
+(12, 9, '1. Ganti Stir\r\n2. Cek Lampu Belakang', '27-08-2022');
 
 -- --------------------------------------------------------
 
@@ -119,6 +162,12 @@ ALTER TABLE `kriteria`
   ADD PRIMARY KEY (`idKriteria`);
 
 --
+-- Indexes for table `penilaian`
+--
+ALTER TABLE `penilaian`
+  ADD PRIMARY KEY (`idPenilaian`);
+
+--
 -- Indexes for table `service`
 --
 ALTER TABLE `service`
@@ -138,19 +187,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `idCustomer` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idCustomer` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `kriteria`
 --
 ALTER TABLE `kriteria`
-  MODIFY `idKriteria` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idKriteria` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `penilaian`
+--
+ALTER TABLE `penilaian`
+  MODIFY `idPenilaian` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `idService` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idService` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `users`
