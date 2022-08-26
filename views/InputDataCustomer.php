@@ -60,7 +60,7 @@ if(isset($_POST['saveDataCustomer'])) {
       <div class="card rounded-0">
         <div class="card-header bg-primary text-light rounded-0">
           <div class="py-2">
-            <!-- <span class="m-0 me-3">Data Customer</span> -->
+            <h5 class="m-0 me-3">Data Customer</h5>
           </div>
         </div>
         <div class="card-body">

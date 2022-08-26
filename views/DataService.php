@@ -3,6 +3,10 @@ session_start();
 include_once('../modules/Connection.php');
 include_once('../modules/Module.php');
 
+if($_SESSION['loginStatus'] != 1) {
+  header('location: index.php');
+}
+
 if(isset($_GET['alertSuccessSaveData'])) {
   ?>
     <script>var alertSuccessSaveData = true;</script>
@@ -96,7 +100,7 @@ if(isset($_GET['dataService'])){
         </div>
         <div class="card-body">
           <div class="d-flex justify-content-center text-white">
-            <a 
+          <a 
               href="DataCustomer.php" 
               class="btn btn-secondary me-1 shadow border border-3 border-light" 
               style="width: 100px;"
@@ -118,18 +122,11 @@ if(isset($_GET['dataService'])){
               Kriteria
             </a>
             <a 
-              href="" 
+              href="Penilaian.php" 
               class="btn btn-secondary me-1 shadow border border-3 border-light" 
               style="width: 100px;"
             >
               Penilaian
-            </a>
-            <a 
-              href="" 
-              class="btn btn-secondary me-1 shadow border border-3 border-light" 
-              style="width: 100px;"
-            >
-              Hitung
             </a>
           </div>
           <hr>
@@ -160,6 +157,7 @@ if(isset($_GET['dataService'])){
                   <th>Tanggal Service</th>
                   <th>Nama Pemilik</th>
                   <th>Nomor Polisi</th>
+                  <th class="text-center">Status Feedback</th>
                   <th class="text-center">Action</th>
                 </tr>
                 <?php
@@ -167,18 +165,37 @@ if(isset($_GET['dataService'])){
                   $dataService = mysqli_query($connection, "SELECT * FROM service");
                   while($arrDataService = mysqli_fetch_array($dataService)) :
                     $idCustomer = $arrDataService['idCustomer'];
+                    $idService = $arrDataService['idService'];
                     $dataCustomer = mysqli_query($connection, "SELECT * FROM `customers` WHERE `idCustomer` = '$idCustomer' ");
                     $arrDataCustomer = mysqli_fetch_array($dataCustomer);
                     $no++;
+              
+                    // GET Value For Condition Feedback
+                    $dataPenilaian = mysqli_query($connection, "SELECT * FROM `penilaian` WHERE `idService` = '$idService' ");
+                    $arrDataPenilaian = mysqli_fetch_array($dataPenilaian);
                 ?>
                 <tr>
                   <td class="text-center fw-bold"><?php echo $no; ?></td>
                   <td><?=$arrDataService['tanggalService']?></td>
                   <td><?=$arrDataCustomer['namaDepan']?></td>
                   <td><?=$arrDataCustomer['nomorPolisi']?></td>
+                  <?php 
+                    if(isset($arrDataPenilaian['idService'])){
+                      echo '<td class="text-center"> <span class="badge bg-primary">Feedback</span></td>';
+                    }
+                    else {
+                      echo '<td class="text-center"> <span class="badge bg-secondary">Feedback</span></td>';
+                    }
+                  ?>
                   <td class="text-center"> 
                     <a href="DataService.php?dataService=update&idService=<?=$arrDataService['idService']?>" class="btn btn-sm btn-primary border-0 rounded-0">Detail</a>
                     <a href="DataService.php?dataService=delete&idService=<?=$arrDataService['idService']?>" class="btn btn-sm btn-secondary border-0 rounded-0">Delete</a>
+                    <a 
+                      href="Feedback.php?dataFeedback=true&idCustomer=<?=$arrDataCustomer['idCustomer']?>&idService=<?=$arrDataService['idService']?>"
+                      class="btn btn-sm btn-warning border-0 shadow text-white"
+                    >
+                      <img src="../assets/icon/arrow-right-circle.svg" alt="" srcset="">
+                    </a>
                   </td>
                 </tr>
                 <?php

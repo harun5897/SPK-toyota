@@ -3,6 +3,10 @@ session_start();
 include_once('../modules/Connection.php');
 include_once('../modules/Module.php');
 
+if($_SESSION['loginStatus'] != 1) {
+  header('location: index.php');
+}
+
 if(isset($_GET['alertSuccessSaveData'])) {
   ?>
     <script>var alertSuccessSaveData = true;</script>
@@ -103,7 +107,7 @@ if(isset($_GET['dataKriteria'])){
         </div>
         <div class="card-body">
           <div class="d-flex justify-content-center text-white">
-            <a 
+          <a 
               href="DataCustomer.php" 
               class="btn btn-secondary me-1 shadow border border-3 border-light" 
               style="width: 100px;"
@@ -125,18 +129,11 @@ if(isset($_GET['dataKriteria'])){
               Kriteria
             </a>
             <a 
-              href="" 
+              href="Penilaian.php" 
               class="btn btn-secondary me-1 shadow border border-3 border-light" 
               style="width: 100px;"
             >
               Penilaian
-            </a>
-            <a 
-              href="" 
-              class="btn btn-secondary me-1 shadow border border-3 border-light" 
-              style="width: 100px;"
-            >
-              Hitung
             </a>
           </div>
           <hr>

@@ -22,6 +22,7 @@
   }
   function deleteCustomer($connection, $idCustomer) {
     mysqli_query($connection, "DELETE FROM `customers` WHERE `idCustomer` = '$idCustomer'");
+    mysqli_query($connection, "DELETE FROM `service` WHERE `idCustomer` = '$idCustomer'");
     header('location: DataCustomer.php?alertSuccessDeleteData=true');
   }
 
@@ -54,6 +55,7 @@
 
   function deleteKriteria($connection, $idKriteria) {
     mysqli_query($connection, "DELETE FROM `kriteria` WHERE `idKriteria` = '$idKriteria'");
+    mysqli_query($connection, "DELETE FROM `penilaian` WHERE `idKriteria` = '$idKriteria'");
     header('location: DataKriteria.php?alertSuccessDeleteData=true');
   }
 
@@ -83,5 +85,18 @@
   function deleteService ($connection, $idService) {
     mysqli_query($connection, "DELETE FROM `service` WHERE `idService` = '$idService'");
     header('location: DataService.php?alertSuccessDeleteData=true');
+  }
+  
+  function saveFeedback($connection, $idCustomer, $idService) {
+    $no = 0;
+    $dataKriteria = mysqli_query($connection, "SELECT * FROM kriteria");
+    while($arrDataKriteria = mysqli_fetch_array($dataKriteria)) :
+      $no++;
+      $idKriteria = $arrDataKriteria['idKriteria'];
+      $nilai = $_SESSION['kriteria'.$no];
+      $_SESSION['kriteria'.$no] = $arrDataKriteria['idKriteria'];
+      mysqli_query($connection, "INSERT INTO `penilaian` (`idCustomer`, `idService` ,`idKriteria`, `nilai`) VALUES ('$idCustomer', '$idService', '$idKriteria', '$nilai')");
+    endwhile;
+    header('location: ThankYou.php');
   }
 ?>

@@ -106,18 +106,11 @@ if(isset($_GET['dataCustomer'])){
               Kriteria
             </a>
             <a 
-              href="" 
+              href="Penilaian.php" 
               class="btn btn-secondary me-1 shadow border border-3 border-light" 
               style="width: 100px;"
             >
               Penilaian
-            </a>
-            <a 
-              href="" 
-              class="btn btn-secondary me-1 shadow border border-3 border-light" 
-              style="width: 100px;"
-            >
-              Hitung
             </a>
           </div>
           <hr>
