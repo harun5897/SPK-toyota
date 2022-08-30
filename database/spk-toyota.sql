@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 27, 2022 at 01:07 AM
+-- Generation Time: Aug 30, 2022 at 05:03 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.33
 
@@ -47,7 +47,13 @@ INSERT INTO `customers` (`idCustomer`, `namaDepan`, `namaBelakang`, `nomorPolisi
 (6, 'Joko', 'Susilo', 'BP 3220 DT', 'RA98897867KA', 'Honda', 'XPANDER 2020', '082160271959', 'Batam Centre'),
 (7, 'Burhan', 'Ardan', 'BP 7340 DT', 'RA98764567KA', 'Toyota', 'YARIS', '081354709870', 'Jl. Botania 2'),
 (8, 'Ruslan ', 'Anwar', 'BP 9340 DT', 'RA76456798KA', 'Honda', 'JAZZ 2018', '083156789870', 'Jl. Nagoya 13'),
-(9, 'Bayu ', 'Anugerah', 'BP 3113 CK', 'RA67873456KA', 'Honda', 'Brio 2018', '081688976890', 'Batam Centre');
+(9, 'Bayu ', 'Anugerah', 'BP 3113 CK', 'RA67873456KA', 'Honda', 'Brio 2018', '081688976890', 'Batam Centre'),
+(10, 'Rudi', 'Sudarsono', 'BP 3220 DT', 'RA98897867KA', 'Toyota', 'JAZZ 2018', '081354709870', 'Batam'),
+(11, 'Bagas ', 'Saputra', 'BP 7340 DT', 'RA98764567KA', 'Mitsubishi', 'XPANDER 2020', '081354709870', 'batam'),
+(12, 'Novan', 'Prasetyo', 'BP 9340 DT', 'RA67873456KA', 'Honda', 'Brio 2018', '082160271959', 'Batam'),
+(13, 'Suyamto ', 'Widodo', 'BP 3220 DT', 'RA67873196KA', 'Honda', 'JAZZ 2018', '081660271957', 'Batam'),
+(14, 'Nur', 'Fadila', 'BP 3221 DT', 'RA98897767KA', 'Toyota', 'YARIS', '081660271967', 'Bengkong'),
+(15, 'Fatur', 'Rahman', 'BP 4120 DT', 'RA87897867KA', 'Honda', 'Brio 2018', '081660271556', 'Pinang');
 
 -- --------------------------------------------------------
 
@@ -92,14 +98,46 @@ CREATE TABLE `penilaian` (
 --
 
 INSERT INTO `penilaian` (`idPenilaian`, `idCustomer`, `idService`, `idKriteria`, `nilai`) VALUES
-(17, 6, 9, 11, 90),
-(18, 6, 9, 12, 80),
-(19, 6, 9, 13, 70),
-(20, 6, 9, 14, 70),
-(21, 7, 10, 11, 100),
-(22, 7, 10, 12, 80),
-(23, 7, 10, 13, 70),
-(24, 7, 10, 14, 100);
+(37, 6, 13, 11, 9),
+(38, 6, 13, 12, 6),
+(39, 6, 13, 13, 9),
+(40, 6, 13, 14, 7),
+(41, 7, 14, 11, 9),
+(42, 7, 14, 12, 8),
+(43, 7, 14, 13, 7),
+(44, 7, 14, 14, 7),
+(45, 8, 15, 11, 7),
+(46, 8, 15, 12, 8),
+(47, 8, 15, 13, 9),
+(48, 8, 15, 14, 7),
+(49, 9, 16, 11, 7),
+(50, 9, 16, 12, 6),
+(51, 9, 16, 13, 7),
+(52, 9, 16, 14, 7),
+(53, 10, 17, 11, 5),
+(54, 10, 17, 12, 4),
+(55, 10, 17, 13, 7),
+(56, 10, 17, 14, 5),
+(57, 11, 18, 11, 7),
+(58, 11, 18, 12, 6),
+(59, 11, 18, 13, 5),
+(60, 11, 18, 14, 9),
+(61, 12, 19, 11, 9),
+(62, 12, 19, 12, 8),
+(63, 12, 19, 13, 9),
+(64, 12, 19, 14, 7),
+(65, 13, 20, 11, 5),
+(66, 13, 20, 12, 6),
+(67, 13, 20, 13, 7),
+(68, 13, 20, 14, 7),
+(69, 14, 21, 11, 5),
+(70, 14, 21, 12, 6),
+(71, 14, 21, 13, 7),
+(72, 14, 21, 14, 9),
+(73, 15, 22, 11, 7),
+(74, 15, 22, 12, 8),
+(75, 15, 22, 13, 7),
+(76, 15, 22, 14, 9);
 
 -- --------------------------------------------------------
 
@@ -119,10 +157,16 @@ CREATE TABLE `service` (
 --
 
 INSERT INTO `service` (`idService`, `idCustomer`, `permasalahanKendaraan`, `tanggalService`) VALUES
-(9, 6, '1. Ganti Oli\r\n2. Cek Air Radiator', '27-08-2022'),
-(10, 7, ' 1. Service Pintu Belakang', '27-08-2022'),
-(11, 8, ' 1. Ganti Ban Belakang', '27-08-2022'),
-(12, 9, '1. Ganti Stir\r\n2. Cek Lampu Belakang', '27-08-2022');
+(13, 6, ' 1. Ganti Oli', '27-08-2022'),
+(14, 7, ' 1. Ganti Busi', '27-08-2022'),
+(15, 8, ' 1. Cek Aki Motor', '27-08-2022'),
+(16, 9, ' 1. Ganti Oli\r\n', '27-08-2022'),
+(17, 10, ' 1. Ganti Busi', '30-08-2022'),
+(18, 11, ' 1. Tambah Air Radiator', '30-08-2022'),
+(19, 12, ' 1. Ganti Busi', '30-08-2022'),
+(20, 13, ' 1. Tambah Air Radiator', '30-08-2022'),
+(21, 14, ' 1. Ganti Piston', '30-08-2022'),
+(22, 15, ' 1. Ganti Busi', '30-08-2022');
 
 -- --------------------------------------------------------
 
@@ -187,7 +231,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `idCustomer` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `idCustomer` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `kriteria`
@@ -199,13 +243,13 @@ ALTER TABLE `kriteria`
 -- AUTO_INCREMENT for table `penilaian`
 --
 ALTER TABLE `penilaian`
-  MODIFY `idPenilaian` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `idPenilaian` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `idService` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `idService` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `users`
