@@ -6,7 +6,8 @@ include_once('../modules/Module.php');
 if($_SESSION['loginStatus'] != 1) {
   header('location: index.php');
 }
-
+$rowcountKriteria = mysqli_query($connection, "SELECT * FROM kriteria");
+$rowcount = mysqli_num_rows($rowcountKriteria);
 ?>
 
 <!DOCTYPE html>
@@ -120,7 +121,7 @@ if($_SESSION['loginStatus'] != 1) {
                   <th>Nama Pemilik</th>
                   <?php
                     $no = 0;
-                    $dataKriteria = mysqli_query($connection, "SELECT * FROM kriteria");
+                    $dataKriteria = mysqli_query($connection, "SELECT * FROM kriteria order by idKriteria desc");
                     while($arrDataKriteria = mysqli_fetch_array($dataKriteria)) :
                       $no++;
                   ?>
@@ -137,7 +138,7 @@ if($_SESSION['loginStatus'] != 1) {
                   while($arrDataCustomer = mysqli_fetch_array($dataCustomer)) :
                     $no++;
                     $idCustomer = $arrDataCustomer['idCustomer'];
-                    $dataPenilaian = mysqli_query($connection, "SELECT * FROM `penilaian` WHERE `idCustomer` = '$idCustomer' ");
+                    $dataPenilaian = mysqli_query($connection, "SELECT * FROM `penilaian` WHERE `idCustomer` = '$idCustomer'");
                     $arrDataPenilaian = mysqli_fetch_array($dataPenilaian);
                     if(isset($arrDataPenilaian['idCustomer'])){
                 ?>
@@ -145,7 +146,7 @@ if($_SESSION['loginStatus'] != 1) {
                   <td class="text-center fw-bold"><?php echo $no; ?></td>
                   <td><?=$arrDataCustomer['namaDepan']?></td>
                   <?php
-                    $dataPenilaian = mysqli_query($connection, "SELECT * FROM `penilaian` WHERE `idCustomer` = '$idCustomer' ");
+                    $dataPenilaian = mysqli_query($connection, "SELECT * FROM `penilaian` WHERE `idCustomer` = '$idCustomer' order by idPenilaian desc limit $rowcount ");
                     while($arrDataPenilaian = mysqli_fetch_array($dataPenilaian)):
                   ?>
                     <td>
@@ -175,7 +176,7 @@ if($_SESSION['loginStatus'] != 1) {
                   <th>Nama Pemilik</th>
                   <?php
                     $no = 0;
-                    $dataKriteria = mysqli_query($connection, "SELECT * FROM kriteria");
+                    $dataKriteria = mysqli_query($connection, "SELECT * FROM kriteria order by idKriteria desc");
                     while($arrDataKriteria = mysqli_fetch_array($dataKriteria)) :
                       $no++;
                   ?>
@@ -199,7 +200,7 @@ if($_SESSION['loginStatus'] != 1) {
                   <td class="text-center fw-bold"><?php echo $no; ?></td>
                   <td><?=$arrDataCustomer['namaDepan']?></td>
                   <?php
-                    $dataPenilaian = mysqli_query($connection, "SELECT * FROM `penilaian` WHERE `idCustomer` = '$idCustomer' ");
+                    $dataPenilaian = mysqli_query($connection, "SELECT * FROM `penilaian` WHERE `idCustomer` = '$idCustomer' order by idPenilaian desc limit $rowcount ");
                     while($arrDataPenilaian = mysqli_fetch_array($dataPenilaian)):
                       $normalisasi = getNormalisasi($connection, $arrDataPenilaian['nilai'], $arrDataPenilaian['idKriteria']);
                   ?>
@@ -227,7 +228,7 @@ if($_SESSION['loginStatus'] != 1) {
                   <th>Nama Pemilik</th>
                   <?php
                     $no = 0;
-                    $dataKriteria = mysqli_query($connection, "SELECT * FROM kriteria");
+                    $dataKriteria = mysqli_query($connection, "SELECT * FROM kriteria order by idKriteria desc");
                     while($arrDataKriteria = mysqli_fetch_array($dataKriteria)) :
                       $no++;
                   ?>
@@ -252,7 +253,7 @@ if($_SESSION['loginStatus'] != 1) {
                   <td class="text-center fw-bold"><?php echo $no; ?></td>
                   <td><?=$arrDataCustomer['namaDepan']?></td>
                   <?php
-                    $dataPenilaian = mysqli_query($connection, "SELECT * FROM `penilaian` WHERE `idCustomer` = '$idCustomer' ");
+                    $dataPenilaian = mysqli_query($connection, "SELECT * FROM `penilaian` WHERE `idCustomer` = '$idCustomer' order by idPenilaian desc limit $rowcount");
                     while($arrDataPenilaian = mysqli_fetch_array($dataPenilaian)):
                       $normalisasi = getNormalisasi($connection, $arrDataPenilaian['nilai'], $arrDataPenilaian['idKriteria']);
                       $matriksTertimbang = getMatriksTertimbang($connection, $arrDataPenilaian['idKriteria'], $normalisasi);
@@ -283,7 +284,7 @@ if($_SESSION['loginStatus'] != 1) {
                   <th>Nama Pemilik</th>
                   <?php
                     $no = 0;
-                    $dataKriteria = mysqli_query($connection, "SELECT * FROM kriteria");
+                    $dataKriteria = mysqli_query($connection, "SELECT * FROM kriteria order by idKriteria desc");
                     while($arrDataKriteria = mysqli_fetch_array($dataKriteria)) :
                       $no++;
                   ?>
@@ -308,7 +309,7 @@ if($_SESSION['loginStatus'] != 1) {
                   <td><?=$arrDataCustomer['namaDepan']?></td>
                   <?php
                     $no = 0;
-                    $dataPenilaian = mysqli_query($connection, "SELECT * FROM `penilaian` WHERE `idCustomer` = '$idCustomer' ");
+                    $dataPenilaian = mysqli_query($connection, "SELECT * FROM `penilaian` WHERE `idCustomer` = '$idCustomer' order by idPenilaian desc limit $rowcount");
                     while($arrDataPenilaian = mysqli_fetch_array($dataPenilaian)):
                       $normalisasi = getNormalisasi($connection, $arrDataPenilaian['nilai'], $arrDataPenilaian['idKriteria']);
                       $matriksTertimbang = getMatriksTertimbang($connection, $arrDataPenilaian['idKriteria'], $normalisasi);

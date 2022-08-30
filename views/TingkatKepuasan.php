@@ -6,7 +6,8 @@ include_once('../modules/Module.php');
 if($_SESSION['loginStatus'] != 1) {
   header('location: index.php');
 }
-
+$rowcountKriteria = mysqli_query($connection, "SELECT * FROM kriteria");
+$rowcount = mysqli_num_rows($rowcountKriteria);
 ?>
 
 <!DOCTYPE html>
@@ -138,7 +139,7 @@ if($_SESSION['loginStatus'] != 1) {
                   <?php
                     $id_no = 0;
                     $jumlah = [];
-                    $dataPenilaian = mysqli_query($connection, "SELECT * FROM `penilaian` WHERE `idCustomer` = '$idCustomer' ");
+                    $dataPenilaian = mysqli_query($connection, "SELECT * FROM `penilaian` WHERE `idCustomer` = '$idCustomer' order by idPenilaian desc limit $rowcount ");
                     while($arrDataPenilaian = mysqli_fetch_array($dataPenilaian)):
                       $normalisasi = getNormalisasi($connection, $arrDataPenilaian['nilai'], $arrDataPenilaian['idKriteria']);
                       $matriksTertimbang = getMatriksTertimbang($connection, $arrDataPenilaian['idKriteria'], $normalisasi);
