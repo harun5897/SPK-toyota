@@ -19,4 +19,22 @@
       }
     }
   }
+  function updatePassword ($connection, $password, $passwordBaru, $idUser) {
+    if(!$password || !$passwordBaru) {
+      header('location: index.php?alertFailedChangePassword=true');
+    }
+    else {
+      if($password == $passwordBaru) {
+        session_start();
+        session_destroy();
+        header('location: index.php?alertFailedChangePassword=true');
+      }
+      else {
+        mysqli_query($connection, "UPDATE `users` SET `password` = '$passwordBaru' WHERE `idUser` = '$idUser'");
+        session_start();
+        session_destroy();
+        header('location: index.php?alertSuccessChangePassword=true');
+      }
+    }
+  }
 ?>

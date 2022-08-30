@@ -9,6 +9,17 @@ if(isset($_GET['alertFailureLogin'])) {
   <?php
 }
 
+if(isset($_GET['alertFailedChangePassword'])) {
+  ?>
+    <script>var alertFailedChangePassword = true;</script>
+  <?php
+}
+if(isset($_GET['alertSuccessChangePassword'])) {
+  ?>
+    <script>var alertSuccessChangePassword = true;</script>
+  <?php
+}
+
 if(isset($_POST['getLogin'])) {
   getLogin($connection, $_POST['email'], $_POST['password']);
 }
@@ -51,6 +62,27 @@ if(isset($_POST['getLogin'])) {
         text: "Your Email or Password is incorrect",
         buttons: 'OK',
         icon: 'warning',
+      });
+    }
+  </script>
+  <script>
+    if(alertFailedChangePassword) {
+      swal({
+        title: "Failed",
+        text: "Change Password Failed",
+        buttons: 'OK',
+        icon: 'warning',
+      });
+    }
+  </script>
+  <script>
+    if(alertSuccessChangePassword) {
+      swal({
+        title: "Success",
+        text: "Change Password Success",
+        buttons: false,
+        icon: "success",
+        timer: 2000,
       });
     }
   </script>

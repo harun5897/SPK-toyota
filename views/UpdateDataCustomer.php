@@ -2,6 +2,7 @@
 session_start();
 include_once('../modules/Connection.php');
 include_once('../modules/Module.php');
+include_once('../modules/LoginAccess.php');
 
 if($_SESSION['loginStatus'] != 1) {
   header('location: index.php');
@@ -19,6 +20,9 @@ if(isset($_GET['dataCustomer'])){
 }
 if(isset($_POST['saveDataCustomer'])) {
   updateDataCustomer($connection, $_POST['namaDepan'],$_POST['namaBelakang'],$_POST['nomorPolisi'],$_POST['nomorRangka'],$_POST['merkKendaraan'],$_POST['tipeKendaraan'],$_POST['kontak'],$_POST['alamat'], $idCustomer);
+}
+if(isset($_POST['updatePassword'])){
+  updatePassword($connection, $_POST['password'], $_POST['passwordBaru'], $_SESSION['idUser']);
 }
 $dataCustomerById = mysqli_query($connection, "SELECT * FROM `customers` WHERE `idCustomer` = $idCustomer");
 $arrDataCustomerById = mysqli_fetch_array($dataCustomerById);
@@ -52,13 +56,53 @@ $arrDataCustomerById = mysqli_fetch_array($dataCustomerById);
             data-bs-display="static" 
             aria-expanded="false"
           >
-            Admin
+          <?php echo $_SESSION['username']; ?>
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalGantiKataSandi">Change Password</a>
+            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModalupdatePassword">Change Password</a>
             <!-- <a class="dropdown-item" href="daftarUser.php">Users</a> -->
             <a class="dropdown-item" href="logout.php">Logout</a>
           </ul>
+        </div>
+      </div>
+    </div>
+    <!-- Modal Ganti Kata Sandi-->
+    <div class="modal fade" 
+      tabindex="-1"
+      id="exampleModalupdatePassword"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title">Change Password</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form action="" method="POST">
+            <div class="modal-body">
+              <input 
+                type="text" 
+                class="form-control mt-3" 
+                placeholder="Masukan Password"
+                name="password"
+              >
+              <input 
+                type="text" 
+                class="form-control mt-3" 
+                placeholder="Masukan Password Baru"
+                name="passwordBaru"
+              >
+            <div class="modal-footer mt-3">
+              <button 
+                type="submit" 
+                class="btn btn-primary border-0 rounded-0"
+                name="updatePassword"
+              >
+                Simpan
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
