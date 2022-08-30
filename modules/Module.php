@@ -84,6 +84,7 @@
 
   function deleteService ($connection, $idService) {
     mysqli_query($connection, "DELETE FROM `service` WHERE `idService` = '$idService'");
+    mysqli_query($connection, "DELETE FROM `penilaian` WHERE `idService` = '$idService'");
     header('location: DataService.php?alertSuccessDeleteData=true');
   }
   
@@ -117,23 +118,14 @@
       $min = min($arrMinMax);
       $first = $nilai - $min;
       $second = $max - $min;
-      if($first == 0) {
-        $normalisasi = $first;
-      }
-      else {
-        $normalisasi = $first / $second;
-      }
+      $normalisasi = (int)$first / (int)$second;
     } else {
       $max = max($arrMinMax);
       $min = min($arrMinMax);
       $first = $nilai - $max;
       $second = $min - $max;
-      if($first == 0) {
-        $normalisasi = $first;
-      }
-      else {
-        $normalisasi = $first / $second;
-      }
+      $normalisasi = (int)$first / (int)$second ;
+    
     }
     return $normalisasi;
   }
@@ -183,13 +175,16 @@
     $temp = $_SESSION['x'.$no];
     $batasan = 0;
     
-    foreach($temp as $value) {
+    for($i = 0; $i < count($temp); $i++){
       if($batasan == 0) {
-        $batasan = $value;
+        $batasan = $temp[$i];
+      } else {
+        $batasan = $batasan * $temp[$i];
       }
     }
-
+    // return number_format(pow($batasan, 0.25), 3);
     
+    return $matriksTertimbang - pow($batasan, 0.25);
     // return $batasan;
 
   }
