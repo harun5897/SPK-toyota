@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 30, 2022 at 05:03 PM
+-- Generation Time: Aug 30, 2022 at 07:33 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.33
 
@@ -137,7 +137,11 @@ INSERT INTO `penilaian` (`idPenilaian`, `idCustomer`, `idService`, `idKriteria`,
 (73, 15, 22, 11, 7),
 (74, 15, 22, 12, 8),
 (75, 15, 22, 13, 7),
-(76, 15, 22, 14, 9);
+(76, 15, 22, 14, 9),
+(77, 6, 23, 11, 9),
+(78, 6, 23, 12, 9),
+(79, 6, 23, 13, 7),
+(80, 6, 23, 14, 7);
 
 -- --------------------------------------------------------
 
@@ -166,7 +170,8 @@ INSERT INTO `service` (`idService`, `idCustomer`, `permasalahanKendaraan`, `tang
 (19, 12, ' 1. Ganti Busi', '30-08-2022'),
 (20, 13, ' 1. Tambah Air Radiator', '30-08-2022'),
 (21, 14, ' 1. Ganti Piston', '30-08-2022'),
-(22, 15, ' 1. Ganti Busi', '30-08-2022');
+(22, 15, ' 1. Ganti Busi', '30-08-2022'),
+(23, 6, ' 1. tes', '30-08-2022');
 
 -- --------------------------------------------------------
 
@@ -243,13 +248,13 @@ ALTER TABLE `kriteria`
 -- AUTO_INCREMENT for table `penilaian`
 --
 ALTER TABLE `penilaian`
-  MODIFY `idPenilaian` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `idPenilaian` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `idService` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `idService` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `users`
