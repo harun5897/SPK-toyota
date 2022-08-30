@@ -182,10 +182,8 @@
         $batasan = $batasan * $temp[$i];
       }
     }
-    // return number_format(pow($batasan, 0.25), 3);
-    
+
     return $matriksTertimbang - pow($batasan, 0.25);
-    // return $batasan;
 
   }
 ?>

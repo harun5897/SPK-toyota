@@ -327,6 +327,9 @@ if($_SESSION['loginStatus'] != 1) {
                   endwhile;
                 ?>
               </table>
+              <div class="d-flex justify-content-end mt-4 mb-5">
+                <a href="TingkatKepuasan.php" class="btn btn-primary border-0">Lihat Tingkat Kepuasan</a>
+              </div>
             </div>
           </div>
         </div>
