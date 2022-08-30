@@ -140,14 +140,12 @@ $rowcount = mysqli_num_rows($rowcountKriteria);
             <div class="w-100">
               <div class="d-flex mb-2">
                 <div>
-                  <!-- <a
-                    href="LangkahPenilaian.php"
+                  <a
+                    href="Report.php"
                     class="btn btn-primary rounded-0 me-3 shadow border border-3 border-light"
-                    data-bs-toggle="modal" 
-                    data-bs-target="#exampleModal"
                   >
-                    Generete
-                  </a> -->
+                    Print Report
+                  </a>
                 </div>
                 <!-- <div class="d-flex">
                   <button class="btn btn-secondary border-0 rounded-0 me-2"> Search </button>

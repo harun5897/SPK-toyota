@@ -3,50 +3,67 @@ session_start();
 require('../FPDF/fpdf.php');
 
 if($_SESSION['loginStatus'] != 1) {
-    header('location: index.php?alertBelumLogin=true');
+    header('location: index.php?s');
   }
 
 class myPDF extends FPDF {
   function header()
   {
-    include_once('../handlingData/smart.php');
-    include_once('../handlingData/koneksi.php');
+    include_once('../modules/Connection.php');
+    include_once('../modules/Module.php');
+    include_once('../modules/LoginAccess.php');
 
     $this->SetFont('Arial', 'B', 18);
-    $this->cell(0,0, 'Notaris & PPAT Ronifiska Kirana, S.H, M. Kn Tanjungpinang', 0, 0, 'C');
+    $this->cell(0,0, 'AGUNG TOYOTA', 0, 0, 'C');
     $this->ln();
-    $this->SetFont('Arial', 'B', 14);
-    $this->cell(0,20, 'Jl. Ir. Sutami, Komplek Ruko Dendang Ria, No.120, kota Tanjungpinang, provinsi Kepulauan Riau.', 0, 0, 'C');
+    $this->SetFont('Arial', 'B', 12);
+    $this->cell(0,20, 'JL. Daeng Celak Km 8 Sei Carang Air Raja, Air Raja, Kec. Tanjungpinang Tim., Kota Tanjung Pinang, Kepulauan Riau 29123.', 0, 0, 'C');
     $this->Line(5, 30, 290, 30);
     $this->ln();
     $this->SetFont('Arial', 'B', 18);
-    $this->cell(0,20, 'Laporan Perangkingan Penerimaan Karyawan', 0, 0, 'C');
+    $this->cell(0,20, 'Laporan Tingkat Kepuasan Pelanggan', 0, 0, 'C');
     $this->ln();
 
     $this->SetFont('Arial', 'B', 14);
     $this->Cell(15, 10, 'No', 1,0, 'C');
-    $this->Cell(90, 10, 'Nama', 1,0,'C');
-    $this->Cell(90, 10, 'Kontak', 1,0, 'C');
-    $this->Cell(80, 10, 'Nilai', 1,0, 'C');
+    $this->Cell(90, 10, 'Nama Pemilik', 1,0,'C');
+    $this->Cell(80, 10, 'Total Nilai', 1,0, 'C');
+    $this->Cell(80, 10, 'Keterangan', 1,0, 'C');
 
-    $rankingIdPeserta = $_SESSION['RankingIdPeserta'];
-    $rankingNilaiAkhir = $_SESSION['RankingNilaiAKhir'];
-    $no = 1;
-    $i = 0;
-    foreach($rankingIdPeserta as $id):
-      $dataPeserta = mysqli_query($koneksi, "SELECT * FROM `tabelpeserta`  WHERE `idPeserta` = '$id'");
-      $arrDataPeserta = mysqli_fetch_array($dataPeserta);
-      
-      $this->ln();
-      $this->SetFont('Arial', '', 14);
-      $this->Cell(15, 10, $no, 1,0, 'C');
-      $this->Cell(90, 10, $arrDataPeserta['namaDepan'], 1,0,'C');
-      $this->Cell(90, 10, $arrDataPeserta['kontak'], 1,0, 'C');
-      $this->Cell(80, 10, $rankingNilaiAkhir[$i] , 1,0, 'C');
+    $rowcountKriteria = mysqli_query($connection, "SELECT * FROM kriteria");
+    $rowcount = mysqli_num_rows($rowcountKriteria);
+    $no = 0;
+    $dataCustomer = mysqli_query($connection, "SELECT * FROM customers");
+    while($arrDataCustomer = mysqli_fetch_array($dataCustomer)) :
       $no++;
-      $i++;
-    endforeach;
-    
+      $idCustomer = $arrDataCustomer['idCustomer'];
+      $dataPenilaian = mysqli_query($connection, "SELECT * FROM `penilaian` WHERE `idCustomer` = '$idCustomer' ");
+      $arrDataPenilaian = mysqli_fetch_array($dataPenilaian);
+      if(isset($arrDataPenilaian['idCustomer'])){
+        $this->ln();
+        $this->SetFont('Arial', '', 14);
+        $this->Cell(15, 10, $no, 1,0, 'C');
+        $this->Cell(90, 10, $arrDataCustomer['namaDepan'], 1,0,'C');
+        $id_no = 0;
+        $jumlah = [];
+        $dataPenilaian = mysqli_query($connection, "SELECT * FROM `penilaian` WHERE `idCustomer` = '$idCustomer' order by idPenilaian desc limit $rowcount ");
+        while($arrDataPenilaian = mysqli_fetch_array($dataPenilaian)):
+          $normalisasi = getNormalisasi($connection, $arrDataPenilaian['nilai'], $arrDataPenilaian['idKriteria']);
+          $matriksTertimbang = getMatriksTertimbang($connection, $arrDataPenilaian['idKriteria'], $normalisasi);
+          $nilaiElemen = perhitunganElemen($matriksTertimbang, $id_no);
+          array_push($jumlah, $nilaiElemen);
+        $id_no++;
+        endwhile;
+        $this->Cell(80, 10, array_sum($jumlah), 1,0,'C');
+        if(array_sum($jumlah) > 1) {
+          $this->Cell(80, 10, 'PUAS', 1,0,'C');
+        }
+        else {
+          $this->Cell(80, 10, 'TIDAK PUAS', 1,0,'C');
+        }
+      }
+    endwhile;
+
   }
   function Footer()
   {
@@ -55,7 +72,7 @@ class myPDF extends FPDF {
     $date = date('d-m-Y');
     $d = 'Tanjung Pinang, '.$date;
     
-    $this->SetY(-40);
+    $this->SetY(-27);
     // $this->ln();
     $this->SetFont('Arial','', 14);
     $this->cell(247,-18, 'Mengetahui,', 0, 0, 'R');
@@ -64,17 +81,17 @@ class myPDF extends FPDF {
     $this->cell(264,0, $d, 0, 0, 'R');
     $this->ln();
     $this->SetFont('Arial','', 14);
-    $this->cell(253,30, 'NOTARIS & PPAT', 0, 0, 'R');
+    $this->cell(250,35, 'Kepala bengkel', 0, 0, 'R');
 
     $this->ln();
     $this->SetFont('Arial','U', 14);
-    $this->cell(258,10, 'RONIFISKA S.H, M.KN', 0, 0, 'R');
+    $this->cell(255,10, 'Dasep Abdurrahman', 0, 0, 'R');
     $this->ln();
   }
 }
 
 $pdf = new myPDF();
 $pdf->AliasNbPages();
-$pdf->AddPage('L', 'A4', 0);
+$pdf->AddPage('L', 'Letter', 0);
 $pdf->Output();
 ?>
