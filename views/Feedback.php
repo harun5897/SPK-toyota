@@ -46,7 +46,7 @@ if(isset($_POST['saveFeedback'])) {
                   <input 
                     type="text" 
                     class="form-control mt-1"
-                    placeholder="Rentang Nilai (0 - 100)"
+                    placeholder="Rentang Nilai (5 - 10)"
                     name="<?=$arrDataKriteria['idKriteria']?>"
                   >
                 <?php
