@@ -166,6 +166,7 @@ $rowcount = mysqli_num_rows($rowcountKriteria);
 
                 <?php
                   $no = 0;
+                  $persentase = [];
                   $dataCustomer = mysqli_query($connection, "SELECT * FROM customers");
                   while($arrDataCustomer = mysqli_fetch_array($dataCustomer)) :
                     $no++;
@@ -193,9 +194,11 @@ $rowcount = mysqli_num_rows($rowcountKriteria);
                 
                   <?php
                     if(array_sum($jumlah) > 1) {
+                      array_push($persentase, 1);
                       echo '<td> PUAS </td>';
                     }
                     else {
+                      array_push($persentase, 0);
                       echo '<td class="bg-secondary text-white"> TIDAK PUAS </td>';
                     }
                   ?>
@@ -203,8 +206,12 @@ $rowcount = mysqli_num_rows($rowcountKriteria);
                 <?php
                     }
                   endwhile;
+                  $output = array_filter($persentase, function($value) {
+                    return $value == 1;  
+                  });
                 ?>
               </table>
+              <h4><?php echo 'Persentase Kepuasan Pelanggan '.count($output)/count($persentase) * 100 .'%';?></h4>
             </div>
           </div>
         </div>
