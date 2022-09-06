@@ -43,12 +43,15 @@ if(isset($_POST['saveFeedback'])) {
                     $no++;
                 ?>
                   <label for="" class="mt-3"><?=$arrDataKriteria['pertanyaanKriteria']?></label>
-                  <input 
-                    type="text" 
-                    class="form-control mt-1"
-                    placeholder="Rentang Nilai (5 - 10)"
+                  <select 
+                    class="form-select mt-1" 
                     name="<?=$arrDataKriteria['idKriteria']?>"
                   >
+                    <option value="" selected> Pilih Penilaian Anda</option>
+                    <option value="9">Sangat Puas</option>
+                    <option value="7">Puas</option>
+                    <option value="5">Tidak Puas</option>
+                  </select>
                 <?php
                   endwhile;
                 ?>
