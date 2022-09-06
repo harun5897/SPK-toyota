@@ -13,7 +13,15 @@ if(isset($_GET['alertFieldRequired'])) {
   <?php
 }
 if(isset($_POST['saveDataCustomer'])) {
-  saveDataCustomer($connection, $_POST['namaDepan'],$_POST['namaBelakang'],$_POST['nomorPolisi'],$_POST['nomorRangka'],$_POST['merkKendaraan'],$_POST['tipeKendaraan'],$_POST['kontak'],$_POST['alamat']);
+  $nomorRangka = $_POST['nomorRangka'];
+  if(strlen($nomorRangka) <= 16) {
+    saveDataCustomer($connection, $_POST['namaDepan'],$_POST['namaBelakang'],$_POST['nomorPolisi'],$_POST['nomorRangka'],$_POST['merkKendaraan'],$_POST['tipeKendaraan'],$_POST['kontak'],$_POST['alamat']);
+  }
+  else {
+    ?>
+      <script>var alertLimitNoRangka = true;</script>
+    <?php
+  }
 }
 if(isset($_POST['updatePassword'])){
   updatePassword($connection, $_POST['password'], $_POST['passwordBaru'], $_SESSION['idUser']);
@@ -201,6 +209,16 @@ if(isset($_POST['updatePassword'])){
       swal({
         title: "Input Data Failed",
         text: "Field is Required",
+        buttons: 'OK',
+        icon: 'warning',
+      });
+    }
+  </script>
+  <script>
+    if(alertLimitNoRangka) {
+      swal({
+        title: "Input Data Failed",
+        text: "Limit No Rangka is 16 Character",
         buttons: 'OK',
         icon: 'warning',
       });
