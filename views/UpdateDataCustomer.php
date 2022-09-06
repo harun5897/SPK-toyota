@@ -19,7 +19,15 @@ if(isset($_GET['dataCustomer'])){
   }
 }
 if(isset($_POST['saveDataCustomer'])) {
-  updateDataCustomer($connection, $_POST['namaDepan'],$_POST['namaBelakang'],$_POST['nomorPolisi'],$_POST['nomorRangka'],$_POST['merkKendaraan'],$_POST['tipeKendaraan'],$_POST['kontak'],$_POST['alamat'], $idCustomer);
+  $nomorRangka = $_POST['nomorRangka'];
+  if(strlen($nomorRangka) <= 16) {
+    updateDataCustomer($connection, $_POST['namaDepan'],$_POST['namaBelakang'],$_POST['nomorPolisi'],$_POST['nomorRangka'],$_POST['merkKendaraan'],$_POST['tipeKendaraan'],$_POST['kontak'],$_POST['alamat'], $idCustomer);
+  }
+  else {
+    ?>
+      <script>var alertLimitNoRangka = true;</script>
+    <?php
+  }
 }
 if(isset($_POST['updatePassword'])){
   updatePassword($connection, $_POST['password'], $_POST['passwordBaru'], $_SESSION['idUser']);
@@ -244,6 +252,16 @@ $arrDataCustomerById = mysqli_fetch_array($dataCustomerById);
       swal({
         title: "Input Data Failed",
         text: "Field is Required",
+        buttons: 'OK',
+        icon: 'warning',
+      });
+    }
+  </script>
+  <script>
+    if(alertLimitNoRangka) {
+      swal({
+        title: "Input Data Failed",
+        text: "Limit No Rangka is 16 Character",
         buttons: 'OK',
         icon: 'warning',
       });
