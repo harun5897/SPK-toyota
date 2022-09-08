@@ -1,13 +1,28 @@
 <?php
   // ALTERNATIF
   function saveDataCustomer($connection, $namaDepan, $namaBelakang, $nomorPolisi, $nomorRangka, $merkKendaraan, $tipeKendaraan, $kontak, $alamat) {
+    $idCustomer = 0;
+    $dataCustomer = mysqli_query($connection, "SELECT * FROM customers ORDER BY idCustomer DESC LIMIT 1");
+    $arrDataCustomer = mysqli_fetch_array($dataCustomer);
+    if(!$arrDataCustomer['idCustomer']) {
+      $idCustomer = 0;
+    } else {
+      $idCustomer = (int)$arrDataCustomer['idCustomer'] + 1;
+    }
+
+    $dataCustomerByNopol = mysqli_query($connection, " SELECT * FROM `customers` WHERE `nomorPolisi` = '$nomorPolisi'");
+    $arrDataCustomerByNopol = mysqli_fetch_array($dataCustomerByNopol);
 
     if(!$namaDepan || !$namaBelakang || !$nomorPolisi || !$nomorRangka || !$merkKendaraan || !$tipeKendaraan || !$kontak || trim($alamat) == '') {
       header('location: InputDataCustomer.php?alertFieldRequired=true');
     }
     else {
-      mysqli_query($connection, "INSERT INTO `customers` (`namaDepan`, `namaBelakang`, `nomorPolisi`, `nomorRangka`, `merkKendaraan`, `tipeKendaraan`, `kontak`, `alamat`) VALUES ('$namaDepan', '$namaBelakang', '$nomorPolisi', '$nomorRangka', '$merkKendaraan', '$tipeKendaraan', '$kontak', '$alamat')");
-      header('location: DataCustomer.php?alertSuccessSaveData=true');
+      if($arrDataCustomerByNopol['nomorPolisi'] == $nomorPolisi) {
+        header('location: InputDataCustomer.php?alertDataAlreadyExist=true');
+      } else {
+        mysqli_query($connection, "INSERT INTO `customers` (`idCustomer`, `namaDepan`, `namaBelakang`, `nomorPolisi`, `nomorRangka`, `merkKendaraan`, `tipeKendaraan`, `kontak`, `alamat`) VALUES ('$idCustomer', '$namaDepan', '$namaBelakang', '$nomorPolisi', '$nomorRangka', '$merkKendaraan', '$tipeKendaraan', '$kontak', '$alamat')");
+        header('location: DataCustomer.php?alertSuccessSaveData=true');
+      }
     }
   }
   function updateDataCustomer($connection, $namaDepan, $namaBelakang, $nomorPolisi, $nomorRangka, $merkKendaraan, $tipeKendaraan, $kontak, $alamat, $idCustomer) {

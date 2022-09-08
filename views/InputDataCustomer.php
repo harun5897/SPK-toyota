@@ -12,6 +12,11 @@ if(isset($_GET['alertFieldRequired'])) {
     <script>var alertFieldRequired = true;</script>
   <?php
 }
+if(isset($_GET['alertDataAlreadyExist'])) {
+  ?>
+    <script>var alertDataAlreadyExist = true;</script>
+  <?php
+}
 if(isset($_POST['saveDataCustomer'])) {
   $nomorRangka = $_POST['nomorRangka'];
   if(strlen($nomorRangka) <= 16) {
@@ -219,6 +224,16 @@ if(isset($_POST['updatePassword'])){
       swal({
         title: "Input Data Failed",
         text: "Limit No Rangka is 16 Character",
+        buttons: 'OK',
+        icon: 'warning',
+      });
+    }
+  </script>
+  <script>
+    if(alertDataAlreadyExist) {
+      swal({
+        title: "Input Data Failed",
+        text: "Data Already Exist",
         buttons: 'OK',
         icon: 'warning',
       });
