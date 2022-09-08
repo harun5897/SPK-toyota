@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 30, 2022 at 07:33 PM
+-- Generation Time: Sep 08, 2022 at 12:17 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.33
 
@@ -44,16 +44,16 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`idCustomer`, `namaDepan`, `namaBelakang`, `nomorPolisi`, `nomorRangka`, `merkKendaraan`, `tipeKendaraan`, `kontak`, `alamat`) VALUES
+(9, 'Bayu ', 'Anugerah', 'BP 3113 CK', 'RA67873456KA', 'Honda', 'Brio 2018', '081688976890', 'Batam Centre'),
+(10, 'Rudi', 'Sudarsono', 'BP 3113 DT', 'RA98897867KA', 'Toyota', 'JAZZ 2018', '081354709870', 'Batam'),
 (6, 'Joko', 'Susilo', 'BP 3220 DT', 'RA98897867KA', 'Honda', 'XPANDER 2020', '082160271959', 'Batam Centre'),
+(13, 'Suyamto ', 'Widodo', 'BP 3221 DT', 'RA67873196KA', 'Honda', 'JAZZ 2018', '081660271957', 'Batam'),
+(14, 'Nur', 'Fadila', 'BP 3224 DT', 'RA98897767KA', 'Toyota', 'YARIS', '081660271967', 'Bengkong'),
+(11, 'Bagas ', 'Saputra', 'BP 3340 DT', 'RA98764567KA', 'Mitsubishi', 'XPANDER 2020', '081354709870', 'batam'),
+(15, 'Fatur', 'Rahman', 'BP 4120 DT', 'RA87897867KA', 'Honda', 'Brio 2018', '081660271556', 'Pinang'),
 (7, 'Burhan', 'Ardan', 'BP 7340 DT', 'RA98764567KA', 'Toyota', 'YARIS', '081354709870', 'Jl. Botania 2'),
 (8, 'Ruslan ', 'Anwar', 'BP 9340 DT', 'RA76456798KA', 'Honda', 'JAZZ 2018', '083156789870', 'Jl. Nagoya 13'),
-(9, 'Bayu ', 'Anugerah', 'BP 3113 CK', 'RA67873456KA', 'Honda', 'Brio 2018', '081688976890', 'Batam Centre'),
-(10, 'Rudi', 'Sudarsono', 'BP 3220 DT', 'RA98897867KA', 'Toyota', 'JAZZ 2018', '081354709870', 'Batam'),
-(11, 'Bagas ', 'Saputra', 'BP 7340 DT', 'RA98764567KA', 'Mitsubishi', 'XPANDER 2020', '081354709870', 'batam'),
-(12, 'Novan', 'Prasetyo', 'BP 9340 DT', 'RA67873456KA', 'Honda', 'Brio 2018', '082160271959', 'Batam'),
-(13, 'Suyamto ', 'Widodo', 'BP 3220 DT', 'RA67873196KA', 'Honda', 'JAZZ 2018', '081660271957', 'Batam'),
-(14, 'Nur', 'Fadila', 'BP 3221 DT', 'RA98897767KA', 'Toyota', 'YARIS', '081660271967', 'Bengkong'),
-(15, 'Fatur', 'Rahman', 'BP 4120 DT', 'RA87897867KA', 'Honda', 'Brio 2018', '081660271556', 'Pinang');
+(12, 'Novan', 'Prasetyo', 'BP 9341 DT', 'RA67873456KA', 'Honda', 'Brio 2018', '082160271959', 'Batam');
 
 -- --------------------------------------------------------
 
@@ -202,7 +202,7 @@ INSERT INTO `users` (`idUser`, `username`, `email`, `password`, `role`) VALUES
 -- Indexes for table `customers`
 --
 ALTER TABLE `customers`
-  ADD PRIMARY KEY (`idCustomer`);
+  ADD PRIMARY KEY (`nomorPolisi`);
 
 --
 -- Indexes for table `kriteria`
@@ -231,12 +231,6 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
-
---
--- AUTO_INCREMENT for table `customers`
---
-ALTER TABLE `customers`
-  MODIFY `idCustomer` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `kriteria`
