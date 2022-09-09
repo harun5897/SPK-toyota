@@ -188,7 +188,7 @@ if(isset($_POST['updatePassword'])){
                 </tr>
                 <?php
                   $no = 0;
-                  $dataCustomer = mysqli_query($connection, "SELECT * FROM customers");
+                  $dataCustomer = mysqli_query($connection, "SELECT * FROM customers order by `idCustomer` asc");
                   while($arrDataCustomer = mysqli_fetch_array($dataCustomer)) :
                     $no++;
                 ?>
