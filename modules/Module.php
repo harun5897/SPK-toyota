@@ -43,27 +43,55 @@
 
 
   function saveKriteria($connection, $namaKriteria, $bobotKriteria, $pertanyaanKriteria, $costBenefit) {
+    $dataKriteria = mysqli_query($connection, "SELECT * FROM kriteria");
+    $arrBobotKriteria = [];
+
     if($bobotKriteria > 100 ) {
       header('location: DataKriteria.php?alertValueMaximum=true');
     } else {
-      if(!$namaKriteria || !$bobotKriteria || trim($pertanyaanKriteria) == '' || !$costBenefit) {
-        header('location: DataKriteria.php?alertFieldRequired=true');
-      } else {
-        mysqli_query($connection, "INSERT INTO `kriteria` (`namaKriteria`, `bobotKriteria`, `pertanyaanKriteria`, `costBenefit`) VALUES ('$namaKriteria', '$bobotKriteria', '$pertanyaanKriteria', '$costBenefit')");
-        header('location: DataKriteria.php?alertSuccessSaveData=true');
+      while($arrDataKriteria = mysqli_fetch_array($dataKriteria)):
+        array_push($arrBobotKriteria, $arrDataKriteria['bobotKriteria']);  
+      endwhile;
+      $totalBobot = array_sum($arrBobotKriteria);
+      if($totalBobot + $bobotKriteria > 100){
+        header('location: DataKriteria.php?alertValueMaximum=true');
+      }
+      else {
+        if(!$namaKriteria || !$bobotKriteria || trim($pertanyaanKriteria) == '' || !$costBenefit) {
+          header('location: DataKriteria.php?alertFieldRequired=true');
+        } else {
+          mysqli_query($connection, "INSERT INTO `kriteria` (`namaKriteria`, `bobotKriteria`, `pertanyaanKriteria`, `costBenefit`) VALUES ('$namaKriteria', '$bobotKriteria', '$pertanyaanKriteria', '$costBenefit')");
+          header('location: DataKriteria.php?alertSuccessSaveData=true');
+        }
       }
     }
   }
 
   function updateKriteria($connection, $namaKriteria, $bobotKriteria, $pertanyaanKriteria, $costBenefit, $idKriteria){
+    $dataKriteria = mysqli_query($connection, "SELECT * FROM kriteria");
+    $arrBobotKriteria = [];
     if($bobotKriteria > 100 ) {
       header('location: DataKriteria.php?alertValueMaximum=true');
     } else {
       if(!$namaKriteria || !$bobotKriteria || trim($pertanyaanKriteria) == '' || !$costBenefit) {
         header('location: DataKriteria.php?alertFieldRequired=true');
       } else {
-        mysqli_query($connection, "UPDATE `kriteria` SET `namaKriteria` = '$namaKriteria', `bobotKriteria` = '$bobotKriteria', `pertanyaanKriteria` = '$pertanyaanKriteria', `costBenefit` = '$costBenefit' WHERE `kriteria`.`idKriteria` = $idKriteria");
-        header('location: DataKriteria.php?alertSuccessSaveData=true');
+        while($arrDataKriteria = mysqli_fetch_array($dataKriteria)):
+          if($idKriteria != $arrDataKriteria['idKriteria']) {
+            array_push($arrBobotKriteria, $arrDataKriteria['bobotKriteria']);  
+          } else {
+            array_push($arrBobotKriteria, $bobotKriteria);
+          }
+        endwhile;
+        $totalBobot = array_sum($arrBobotKriteria);
+
+        echo $totalBobot;
+        if($totalBobot > 100){
+          header('location: DataKriteria.php?alertValueMaximum=true');
+        } else {
+          mysqli_query($connection, "UPDATE `kriteria` SET `namaKriteria` = '$namaKriteria', `bobotKriteria` = '$bobotKriteria', `pertanyaanKriteria` = '$pertanyaanKriteria', `costBenefit` = '$costBenefit' WHERE `kriteria`.`idKriteria` = $idKriteria");
+          header('location: DataKriteria.php?alertSuccessSaveData=true');
+        }
       }
     }
   }
