@@ -33,6 +33,7 @@ class myPDF extends FPDF {
     $rowcountKriteria = mysqli_query($connection, "SELECT * FROM kriteria");
     $rowcount = mysqli_num_rows($rowcountKriteria);
     $no = 0;
+    $persentase = [];
     $dataCustomer = mysqli_query($connection, "SELECT * FROM customers");
     while($arrDataCustomer = mysqli_fetch_array($dataCustomer)) :
       $no++;
@@ -56,14 +57,22 @@ class myPDF extends FPDF {
         endwhile;
         $this->Cell(80, 10, array_sum($jumlah), 1,0,'C');
         if(array_sum($jumlah) > 1) {
+          array_push($persentase, 1);
           $this->Cell(80, 10, 'PUAS', 1,0,'C');
         }
         else {
+          array_push($persentase, 0);
           $this->Cell(80, 10, 'TIDAK PUAS', 1,0,'C');
         }
       }
     endwhile;
-
+    $output = array_filter($persentase, function($value) {
+      return $value == 1;
+    });
+    $this->ln();
+    $this->ln();
+    $this->SetFont('Arial','', 14);
+    $this->cell(0,0, 'Persentase Kepuasan Pelanggan '. count($output)/count($persentase) * 100 . '%', 0, 0, 'L');
   }
   function Footer()
   {

@@ -207,7 +207,7 @@ $rowcount = mysqli_num_rows($rowcountKriteria);
                     }
                   endwhile;
                   $output = array_filter($persentase, function($value) {
-                    return $value == 1;  
+                    return $value == 1;
                   });
                 ?>
               </table>
